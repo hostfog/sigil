@@ -1,6 +1,6 @@
 # @hostfog/sigil
 
-JWT, JWS, JWE and JWK for Node.js 18+, built on `node:crypto` with no runtime dependencies.
+JWT, JWS, JWE and JWK for Node.js 20+, built on `node:crypto` with no runtime dependencies.
 Behaviour is shared with the Go, PHP and Python versions; see [SPEC.md](../SPEC.md).
 
 ```sh

@@ -46,7 +46,7 @@ final class KeyGenerator
             'curve_name' => OpenSslKey::curveName($curve),
         ]);
 
-        return OpenSslKey::export($key, true);
+        return OpenSslKey::export($key);
     }
 
     /**
@@ -79,7 +79,7 @@ final class KeyGenerator
     {
         $key = openssl_pkey_new(['private_key_type' => OPENSSL_KEYTYPE_RSA, 'private_key_bits' => 2048]);
 
-        return OpenSslKey::export($key, true);
+        return OpenSslKey::export($key);
     }
 
     /**

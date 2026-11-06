@@ -1,6 +1,6 @@
 # hostfog-sigil
 
-JWT, JWS, JWE and JWK for Python 3.9+, built on [cryptography](https://cryptography.io).
+JWT, JWS, JWE and JWK for Python 3.10+, built on [cryptography](https://cryptography.io).
 Part of [Sigil](../README.md); behaviour is defined in [SPEC.md](../SPEC.md).
 
 ```sh

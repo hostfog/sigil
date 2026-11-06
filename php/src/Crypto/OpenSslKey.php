@@ -25,7 +25,7 @@ final class OpenSslKey
     private const RSA_ENCRYPTION = '1.2.840.113549.1.1.1';
     private const EC_PUBLIC_KEY = '1.2.840.10045.2.1';
 
-    // OpenSSL in PHP < 8.4 cannot describe OKP keys, so their fixed DER prefixes are matched instead.
+    // PHP's OpenSSL details for OKP keys differ between versions, so their fixed DER prefixes are matched instead.
     private const OKP_PUBLIC_PREFIXES = [
         'Ed25519' => '302a300506032b6570032100',
         'X25519' => '302a300506032b656e032100',
@@ -66,26 +66,31 @@ final class OpenSslKey
      */
     public static function readPem(string $pem): array
     {
+        $okp = self::readOkp($pem);
+        if ($okp !== null) {
+            return $okp;
+        }
+
         $private = str_contains($pem, 'PRIVATE KEY-----');
         $key = $private ? openssl_pkey_get_private($pem) : openssl_pkey_get_public($pem);
         if ($key === false) {
             throw new InvalidKeyException('Unable to read the PEM key.');
         }
 
-        return self::export($key, $private);
+        return self::export($key);
     }
 
     /**
      * @return array<string, string> JWK
      */
-    public static function export(OpenSSLAsymmetricKey $key, bool $private): array
+    public static function export(OpenSSLAsymmetricKey $key): array
     {
         $details = openssl_pkey_get_details($key);
 
         return match ($details['type']) {
             OPENSSL_KEYTYPE_RSA => self::exportRsa($details['rsa']),
-            OPENSSL_KEYTYPE_EC => self::exportEc($details['ec']),
-            default => self::exportOkp($key, $details['key'], $private),
+            OPENSSL_KEYTYPE_EC => self::exportEc($details['ec'] ?? []),
+            default => throw new InvalidKeyException('Unsupported key type.'),
         };
     }
 
@@ -137,27 +142,28 @@ final class OpenSslKey
     }
 
     /**
-     * @return array<string, string>
+     * @return array<string, string>|null JWK, or null when the PEM is not an OKP key
      */
-    private static function exportOkp(OpenSSLAsymmetricKey $key, string $publicPem, bool $private): array
+    private static function readOkp(string $pem): ?array
     {
-        $public = self::unpem($publicPem);
-        $curve = self::matchPrefix($public, self::OKP_PUBLIC_PREFIXES);
+        $der = self::unpem($pem);
+
+        $curve = self::matchPrefix($der, self::OKP_PUBLIC_PREFIXES);
+        if ($curve !== null) {
+            return ['kty' => 'OKP', 'crv' => $curve, 'x' => Base64Url::encode(substr($der, -32))];
+        }
+
+        $curve = self::matchPrefix($der, self::OKP_PRIVATE_PREFIXES);
         if ($curve === null) {
-            throw new InvalidKeyException('Unsupported key type.');
+            return null;
         }
 
-        $jwk = ['kty' => 'OKP', 'crv' => $curve, 'x' => Base64Url::encode(substr($public, -32))];
-        if ($private) {
-            openssl_pkey_export($key, $privatePem);
-            $der = self::unpem($privatePem);
-            if (self::matchPrefix($der, self::OKP_PRIVATE_PREFIXES) !== $curve) {
-                throw new InvalidKeyException('Unsupported private key encoding.');
-            }
-            $jwk['d'] = Base64Url::encode(substr($der, -32));
-        }
+        $d = substr($der, -32);
+        $x = $curve === 'Ed25519'
+            ? sodium_crypto_sign_publickey(sodium_crypto_sign_seed_keypair($d))
+            : sodium_crypto_scalarmult_base($d);
 
-        return $jwk;
+        return ['kty' => 'OKP', 'crv' => $curve, 'x' => Base64Url::encode($x), 'd' => Base64Url::encode($d)];
     }
 
     /**
