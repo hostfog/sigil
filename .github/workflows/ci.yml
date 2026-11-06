@@ -1,0 +1,70 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  go:
+    runs-on: ubuntu-latest
+    defaults: { run: { working-directory: go } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.24" }
+      - run: go vet ./...
+      - run: go test ./...
+
+  node:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { node: [18, 20, 22] }
+    defaults: { run: { working-directory: node } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "${{ matrix.node }}" }
+      - run: npm ci
+      - run: npm test
+
+  php:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { php: ["8.1", "8.2", "8.3"] }
+    defaults: { run: { working-directory: php } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: "${{ matrix.php }}", extensions: "openssl, sodium" }
+      - run: composer install --no-progress
+      - run: vendor/bin/phpunit
+
+  python:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: { python: ["3.9", "3.11", "3.13"] }
+    defaults: { run: { working-directory: python } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "${{ matrix.python }}" }
+      - run: pip install -e '.[test]'
+      - run: pytest
+
+  interop:
+    needs: [go, node, php, python]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with: { go-version: "1.24" }
+      - uses: actions/setup-node@v4
+        with: { node-version: "22" }
+      - uses: shivammathur/setup-php@v2
+        with: { php-version: "8.3", extensions: "openssl, sodium" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.13" }
+      - run: cd node && npm ci && npm run build
+      - run: cd php && composer install --no-progress
+      - run: cd python && pip install -e .
+      - run: ./interop/run.sh

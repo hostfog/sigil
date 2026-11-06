@@ -1,0 +1,246 @@
+{
+  "claims": {
+    "iss": "sigil",
+    "sub": "interop",
+    "aud": "all",
+    "iat": 1767225600,
+    "exp": 4102444800,
+    "n": 42,
+    "s": "héllo ✓"
+  },
+  "cases": [
+    {
+      "kind": "jws",
+      "alg": "HS256",
+      "key": "oct-hs256"
+    },
+    {
+      "kind": "jws",
+      "alg": "HS384",
+      "key": "oct-hs384"
+    },
+    {
+      "kind": "jws",
+      "alg": "HS512",
+      "key": "oct-hs512"
+    },
+    {
+      "kind": "jws",
+      "alg": "RS256",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jws",
+      "alg": "RS384",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jws",
+      "alg": "RS512",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jws",
+      "alg": "PS256",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jws",
+      "alg": "PS384",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jws",
+      "alg": "PS512",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jws",
+      "alg": "ES256",
+      "key": "ec-p256"
+    },
+    {
+      "kind": "jws",
+      "alg": "ES384",
+      "key": "ec-p384"
+    },
+    {
+      "kind": "jws",
+      "alg": "ES512",
+      "key": "ec-p521"
+    },
+    {
+      "kind": "jws",
+      "alg": "EdDSA",
+      "key": "ed25519"
+    },
+    {
+      "kind": "jwe",
+      "alg": "dir",
+      "enc": "A128GCM",
+      "key": "dir-a128gcm"
+    },
+    {
+      "kind": "jwe",
+      "alg": "dir",
+      "enc": "A192GCM",
+      "key": "dir-a192gcm"
+    },
+    {
+      "kind": "jwe",
+      "alg": "dir",
+      "enc": "A256GCM",
+      "key": "dir-a256gcm"
+    },
+    {
+      "kind": "jwe",
+      "alg": "dir",
+      "enc": "A128CBC-HS256",
+      "key": "dir-a128cbc-hs256"
+    },
+    {
+      "kind": "jwe",
+      "alg": "dir",
+      "enc": "A192CBC-HS384",
+      "key": "dir-a192cbc-hs384"
+    },
+    {
+      "kind": "jwe",
+      "alg": "dir",
+      "enc": "A256CBC-HS512",
+      "key": "dir-a256cbc-hs512"
+    },
+    {
+      "kind": "jwe",
+      "alg": "A128KW",
+      "enc": "A256GCM",
+      "key": "oct-a128kw"
+    },
+    {
+      "kind": "jwe",
+      "alg": "A128KW",
+      "enc": "A128CBC-HS256",
+      "key": "oct-a128kw"
+    },
+    {
+      "kind": "jwe",
+      "alg": "A192KW",
+      "enc": "A256GCM",
+      "key": "oct-a192kw"
+    },
+    {
+      "kind": "jwe",
+      "alg": "A192KW",
+      "enc": "A128CBC-HS256",
+      "key": "oct-a192kw"
+    },
+    {
+      "kind": "jwe",
+      "alg": "A256KW",
+      "enc": "A256GCM",
+      "key": "oct-a256kw"
+    },
+    {
+      "kind": "jwe",
+      "alg": "A256KW",
+      "enc": "A128CBC-HS256",
+      "key": "oct-a256kw"
+    },
+    {
+      "kind": "jwe",
+      "alg": "RSA-OAEP",
+      "enc": "A256GCM",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jwe",
+      "alg": "RSA-OAEP-256",
+      "enc": "A256GCM",
+      "key": "rsa-2048"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A256GCM",
+      "key": "ec-p256"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A128CBC-HS256",
+      "key": "ec-p256"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A256GCM",
+      "key": "ec-p384"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A128CBC-HS256",
+      "key": "ec-p384"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A256GCM",
+      "key": "ec-p521"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A128CBC-HS256",
+      "key": "ec-p521"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A256GCM",
+      "key": "x25519"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES",
+      "enc": "A128CBC-HS256",
+      "key": "x25519"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES+A128KW",
+      "enc": "A128GCM",
+      "key": "ec-p256"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES+A128KW",
+      "enc": "A128GCM",
+      "key": "x25519"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES+A192KW",
+      "enc": "A128GCM",
+      "key": "ec-p256"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES+A192KW",
+      "enc": "A128GCM",
+      "key": "x25519"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES+A256KW",
+      "enc": "A128GCM",
+      "key": "ec-p256"
+    },
+    {
+      "kind": "jwe",
+      "alg": "ECDH-ES+A256KW",
+      "enc": "A128GCM",
+      "key": "x25519"
+    }
+  ]
+}

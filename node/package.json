@@ -1,0 +1,42 @@
+{
+  "name": "@hostfog/sigil",
+  "version": "1.0.0",
+  "description": "JWT, JWS, JWE and JWK for Node.js with zero dependencies",
+  "license": "MIT",
+  "author": "HostFog Ltd",
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "tsc -p . && tsc -p test && node --test dist-test/*.test.js"
+  },
+  "keywords": [
+    "jwt",
+    "jws",
+    "jwe",
+    "jwk",
+    "jose"
+  ],
+  "devDependencies": {
+    "@types/node": "^18.19.130",
+    "typescript": "^7.0.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hostfog/sigil.git",
+    "directory": "node"
+  }
+}
